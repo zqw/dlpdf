@@ -3,7 +3,7 @@
 #t1995
 #cModern Database Systems
 #index2
-#% 
+#% #*
 #!
   
 #*Transaction Management in Multidatabase Systems.

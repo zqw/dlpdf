@@ -1,12 +1,14 @@
 # coding=utf-8
 
-
-from util.util import *
+import util.util as util
 
 
 def main():
-    get_titles("")
-    dl("")
-    pass
+    titles = util.get_titles("txt/sm.txt")
+    # util.get_titles("")
+    # util.dl("")
+    print titles
 
-main()
+
+if( __name__ == "__main__"):
+    main()
