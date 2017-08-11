@@ -7,7 +7,7 @@ import sys
 
 def main():
 
-    srcfile = "txt/smsm.txt"
+    srcfile = "txt/sm.txt"
     if len(sys.argv) >= 2:
         srcfile = sys.argv[1]
 
