@@ -24,7 +24,7 @@ def get_all_titles(file):
     child3 = subprocess.Popen(command3, stdin=child2.stdout, stdout=subprocess.PIPE)
     child4 = subprocess.Popen(command4, stdin=child3.stdout, stdout=subprocess.PIPE)
 
-    titles, error = child3.communicate()
+    titles, error = child4.communicate()
 
     # trim 最后行的换行符
     while titles[-1] == "\n":
