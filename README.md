@@ -7,5 +7,8 @@
 #运行代码
     cd CURRENT_WORK_DIRECTORY
     python index.py
+    python index.py txt/smsm.txt
+    python index.py txt/smsm.txt 127.0.0.1:39721
+    
 
 
