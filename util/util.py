@@ -16,7 +16,7 @@ def get_all_titles(file):
 
     command1 = ('cat %s' % (abs_file)).split(" ")
     command2 = ('grep ^\\#\\*').split(" ")
-    command3 = ('sed s/\#\*//g').split(" ")
+    command3 = ('sed s/^\#\*//g').split(" ")
     command4 = ('sed s/\.$//g').split(" ")  #删除结尾的句号
 
     child1 = subprocess.Popen(command1, stdout=subprocess.PIPE)
@@ -27,8 +27,9 @@ def get_all_titles(file):
     titles, error = child4.communicate()
 
     # trim 最后行的换行符
-    while titles[-1] == "\n":
-        titles = titles[:-1]
+    if titles and len(titles) >0:
+        while titles[-1] == "\n":
+            titles = titles[:-1]
 
     return titles.split("\n")
 
