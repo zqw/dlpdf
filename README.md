@@ -7,6 +7,8 @@
     
 # 运行代码
     cd CURRENT_WORK_DIRECTORY
+    
+    ## 可以按以下几种运行方式运行
     python index.py
     python index.py txt/smsm.txt
     python index.py txt/smsm.txt 127.0.0.1:39721
