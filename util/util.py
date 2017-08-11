@@ -62,7 +62,7 @@ def get_download_href(destFile):
     return None
 
 def download(url, ouput_file):
-    proxy = '-k -e "https_proxy=https://127.0.0.1:39721/"'
+    proxy = '' #下载pdf时不用开代理？？
 
     command1 = r'wget %s %s -O %s' % (proxy, url, ouput_file)
     child1 = subprocess.Popen(command1, stdout=subprocess.PIPE, shell=True)
