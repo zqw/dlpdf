@@ -1,0 +1,47 @@
+#*OQL[C++]: Extending C++ with an Object Query Capability.
+#@José A. Blakeley
+#t1995
+#cModern Database Systems
+#index2
+#% 
+#!
+  
+#*Transaction Management in Multidatabase Systems.
+#@Yuri Breitbart,Hector Garcia-Molina,Abraham Silberschatz
+#t1995
+#cModern Database Systems
+#index3
+#% 
+#!
+  
+#*Overview of the ADDS System.
+#@Yuri Breitbart,Tom C. Reyes
+#t1995
+#cModern Database Systems
+#index4
+#% 
+#!
+  
+#*Multimedia Information Systems: Issues and Approaches.
+#@Stavros Christodoulakis,Leonidas Koveos
+#t1995
+#cModern Database Systems
+#index5
+#% 
+#!
+  
+#*Active Database Systems.
+#@Umeshwar Dayal,Eric N. Hanson,Jennifer Widom
+#t1995
+#cModern Database Systems
+#index6
+#% 
+#!
+  
+#*Where Object-Oriented DBMSs Should Do Better: A Critique Based on Early Experiences.
+#@Angelika Kotz Dittrich,Klaus R. Dittrich
+#t1995
+#cModern Database Systems
+#index7
+#% 
+#!
