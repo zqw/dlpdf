@@ -6,3 +6,4 @@
 /.idea
 /tasks/env/env.py
 /txt/*
+/download/*
