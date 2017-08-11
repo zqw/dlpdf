@@ -4,9 +4,8 @@ import util.util as util
 
 
 def main():
-    titles = util.get_titles("txt/sm.txt")
-    # util.get_titles("")
-    # util.dl("")
+    titles = util.get_titles("txt/big.txt")
+    util.download(titles)
     print titles
 
 

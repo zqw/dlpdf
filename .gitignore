@@ -5,3 +5,4 @@
 /pip-selfcheck.json
 /.idea
 /tasks/env/env.py
+/txt/*

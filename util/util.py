@@ -24,8 +24,8 @@ def get_titles(in_file):
     return titles.split("\n")
 
 
-def dl(paper_title):
-    print "hello paper_title"
+def download(titles):
+    print "hello download titles"
     pass
 
 
