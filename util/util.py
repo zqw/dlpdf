@@ -33,10 +33,12 @@ def get_all_titles(file):
     return titles.split("\n")
 
 
-def search_by_title(title, ouput_file):
+def search_by_title(title, ouput_file, proxy_ip_port=None):
     url = "https://scholar.google.com/scholar?q=%s" % (title,)
     user_agent = '--user-agent="Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 (.NET CLR 3.5.30729)"'
-    proxy = '-k -e "https_proxy=https://127.0.0.1:39721/"'
+    if not proxy_ip_port:
+        proxy = ""
+    proxy = '-k -e "https_proxy=https://%s/"' % (proxy_ip_port)
 
     command1 = r'wget %s %s %s -O %s' % (proxy, user_agent, url, ouput_file)
     child1 = subprocess.Popen(command1, stdout=subprocess.PIPE, shell=True)
