@@ -1,17 +1,20 @@
-# coding=utf-8
+#-*- coding: utf-8 -*-
 
 import urllib2
-import util.util as util
+import util.dlpdf as dlpdf
+import util.analyzepdf as analyzepdf
+
+import os
 import sys
 
 
-def main():
+def dlpdf_main():
 
     srcfile = "txt/sm.txt"
     if len(sys.argv) >= 2:
         srcfile = sys.argv[1]
 
-    all_titles = util.get_all_titles(srcfile)
+    all_titles = dlpdf.get_all_titles(srcfile)
     for title in all_titles:
         encoded_title = urllib2.quote(title)
 
@@ -21,13 +24,25 @@ def main():
         if len(sys.argv) >=3:
             proxy_ip_port = sys.argv[2]
 
-        util.search_by_title(encoded_title, tmp_file, proxy_ip_port)
-        download_url = util.get_download_href(tmp_file)
+        dlpdf.search_by_title(encoded_title, tmp_file, proxy_ip_port)
+        download_url = dlpdf.get_download_href(tmp_file)
 
         if download_url:
             print "begin to download %s" % (download_url,)
-            util.download(download_url, ("download/%s.pdf" % (encoded_title,)).replace("%20", "_"))
+            dlpdf.download(download_url, ("download/%s.pdf" % (encoded_title,)).replace("%20", "_"))
+
+
+def analyzepdf_main():
+    pdfpath = os.path.join(os.getcwd(), "pdf/sm.pdf")
+    txtpath = os.path.join(os.getcwd(), "pdf/sm.txt")
+
+    analyzepdf.getpdftotext(pdfpath, txtpath)
+    analyze_result = analyzepdf.analyze(pdfpath, txtpath, 100)
+
+    for i in analyze_result.keys():
+        print analyze_result[i]
+
 
 
 if __name__ == "__main__":
-    main()
+    analyzepdf_main()
