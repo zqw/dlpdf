@@ -148,7 +148,7 @@ def analyze(pdfpath, txtpath, loop):
     for i in range(1,loop):
         if(result1[i] == "NaN" and result2[i] == "NaN" ):
             continue
-        result3[i] = pdffilename + "-----" +  "["+str(i)+"]" + "-----" +result2[i]  + "-----" +result1[i]
+        result3[str(i)] = pdffilename + "-----" +  "["+str(i)+"]" + "-----" +result2[i]  + "-----" +result1[i]
         # print result3[i]
     return result3
 

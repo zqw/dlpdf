@@ -6,6 +6,7 @@ import util.analyzepdf as analyzepdf
 
 import os
 import sys
+import re
 
 
 def dlpdf_main():
@@ -33,16 +34,35 @@ def dlpdf_main():
 
 
 def analyzepdf_main():
-    pdfpath = os.path.join(os.getcwd(), "pdf/pdf1.pdf")
-    txtpath = os.path.join(os.getcwd(), "pdf/pdf1.txt")
 
-    analyzepdf.getpdftotext(pdfpath, txtpath)
-    analyze_result = analyzepdf.analyze(pdfpath, txtpath, 100)
+    result = []
+    result2 = []
+    pdf_pattern = re.compile("\.pdf$")
+    for root_dir, dirs, files in os.walk(os.path.realpath("./pdf/")):
+        for file in files:
+            abs_file = os.path.realpath(os.path.join(root_dir, file))
+            if pdf_pattern.findall(abs_file):
+                abs_pdf = abs_file
+                abs_txt = abs_file.replace(".pdf", ".txt")
+                analyzepdf.getpdftotext(abs_pdf, abs_txt)
+                analyze_result = analyzepdf.analyze(abs_pdf, abs_txt, 70)
+                result.append(analyze_result)
+    for item in result:
+        for key,value in item.items():
+            # print value
+            result2.append(value)
 
-    for i in analyze_result.keys():
-        print analyze_result[i]
-
+    summary = open(os.path.realpath("./summary/summary.txt"),"w");
+    try:
+        summary.write("\n".join(result2))
+    except:
+        pass
+    finally:
+        summary.close()
 
 
 if __name__ == "__main__":
     analyzepdf_main()
+
+
+#请确保已经创建了pdf文件夹，download文件夹，txt文件夹，summary文件夹

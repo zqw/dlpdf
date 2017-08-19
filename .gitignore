@@ -2,6 +2,7 @@
 /include
 /lib
 /local
+/summary
 *.pyc
 /pip-selfcheck.json
 /.idea
