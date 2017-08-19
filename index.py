@@ -33,8 +33,8 @@ def dlpdf_main():
 
 
 def analyzepdf_main():
-    pdfpath = os.path.join(os.getcwd(), "pdf/sm.pdf")
-    txtpath = os.path.join(os.getcwd(), "pdf/sm.txt")
+    pdfpath = os.path.join(os.getcwd(), "pdf/pdf1.pdf")
+    txtpath = os.path.join(os.getcwd(), "pdf/pdf1.txt")
 
     analyzepdf.getpdftotext(pdfpath, txtpath)
     analyze_result = analyzepdf.analyze(pdfpath, txtpath, 100)

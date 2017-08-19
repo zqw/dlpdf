@@ -69,8 +69,8 @@ def analyze(pdfpath, txtpath, loop):
 
     lines = txt.readlines()
     lines = "".join(lines)
-    pos1 = lines.find('REFERENCES')
-    pos2 = lines.find('References')
+    pos1 = lines.find('References')
+    pos2 = lines.find('REFERENCES')
     pos3 = lines.find('ACKNOWLEDGEMENT')
     pos4 = lines.find('ACKNOWLEDGEMENTS')
 
@@ -87,6 +87,7 @@ def analyze(pdfpath, txtpath, loop):
 
 
     #####################################################
+    # 生成结果的第四列：正文引用的语句
     lines1 = "".join(lines1).replace("\n","").split(".")
     start1 = 1
     result1={}
@@ -110,6 +111,7 @@ def analyze(pdfpath, txtpath, loop):
     # print result1
 
     ####################################################
+    # 生成结果的第三列：title
     title = "NaN"
     start2 = 1
     result2 = {}
@@ -124,8 +126,15 @@ def analyze(pdfpath, txtpath, loop):
                 # print "["+str(start2)+"]"+str(title[0])
                 result2[start2] = str(title[0])
             else:
-                result2[start2] = "NaN"
+                # result2[start2] = "NaN"
+                txt_left_index = left + len(str(start2)) + 2
+                result2[start2] = lines2[txt_left_index:right].replace("\n","")
             start2 = start2 + 1
+        elif left > 0:
+            txt_left_index = left + len(str(start2)) + 2
+            result2[start2] = lines2[txt_left_index:right].replace("\n", "")
+            start2 = start2 + 1
+            continue
         else:
             result2[start2] = "NaN"
             start2 = start2 + 1
