@@ -61,7 +61,7 @@ def analyzepdf_main():
 
     for item in result:
         for value in sort_dict(item):
-            print value
+            # print value
             result2.append(value)
 
     summary = open(os.path.realpath("./%s/summary.txt" % (outdir)),"w");
