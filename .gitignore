@@ -3,6 +3,7 @@
 /lib
 /local
 /summary
+/google
 *.pyc
 /pip-selfcheck.json
 /.idea

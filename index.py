@@ -8,37 +8,43 @@ import os
 import sys
 import re
 
-
+#---------------------------------------------------------------------------------------
+# 根据CJJ提供的txt/sm.txt文件去谷歌学术进行搜索并下载对应的PDF文件到outdir-->即pdf文件夹中
+#---------------------------------------------------------------------------------------
 def dlpdf_main():
-
     srcfile = "txt/sm.txt"
     if len(sys.argv) >= 2:
         srcfile = sys.argv[1]
+    outdir = "pdf"
 
     all_titles = dlpdf.get_all_titles(srcfile)
     for title in all_titles:
         encoded_title = urllib2.quote(title)
 
-        tmp_file = "download/tmp.html"
-
+        google_search_result_file = "google/google_search_result_file.html"
         proxy_ip_port = "127.0.0.1:39721"
         if len(sys.argv) >=3:
             proxy_ip_port = sys.argv[2]
 
-        dlpdf.search_by_title(encoded_title, tmp_file, proxy_ip_port)
-        download_url = dlpdf.get_download_href(tmp_file)
+        dlpdf.search_by_title(encoded_title, google_search_result_file, proxy_ip_port)
+        download_url = dlpdf.get_download_href(google_search_result_file)
 
         if download_url:
             print "begin to download %s" % (download_url,)
-            dlpdf.download(download_url, ("download/%s.pdf" % (encoded_title,)).replace("%20", "_"))
+            dlpdf.download(download_url, ("%s/%s.pdf" % (outdir, encoded_title,)).replace("%20", "_"))
 
-
+#---------------------------------------------------------------------------------------
+# analyzepdf_main会将pdf文件夹中的所有pdf文件进行分析，最后分析结果放到summary/summary.txt中
+#---------------------------------------------------------------------------------------
 def analyzepdf_main():
+
+    srcdir = "pdf"
+    outdir = "summary"
 
     result = []
     result2 = []
     pdf_pattern = re.compile("\.pdf$")
-    for root_dir, dirs, files in os.walk(os.path.realpath("./pdf/")):
+    for root_dir, dirs, files in os.walk(os.path.realpath("./%s/" % (srcdir))):
         for file in files:
             abs_file = os.path.realpath(os.path.join(root_dir, file))
             if pdf_pattern.findall(abs_file):
@@ -47,12 +53,18 @@ def analyzepdf_main():
                 analyzepdf.getpdftotext(abs_pdf, abs_txt)
                 analyze_result = analyzepdf.analyze(abs_pdf, abs_txt, 70)
                 result.append(analyze_result)
+
+    def sort_dict(adict):
+        items = adict.items()
+        items.sort()
+        return [value for key, value in items]
+
     for item in result:
-        for key,value in item.items():
-            # print value
+        for value in sort_dict(item):
+            print value
             result2.append(value)
 
-    summary = open(os.path.realpath("./summary/summary.txt"),"w");
+    summary = open(os.path.realpath("./%s/summary.txt" % (outdir)),"w");
     try:
         summary.write("\n".join(result2))
     except:
@@ -62,6 +74,7 @@ def analyzepdf_main():
 
 
 if __name__ == "__main__":
+    # dlpdf_main()
     analyzepdf_main()
 
 
