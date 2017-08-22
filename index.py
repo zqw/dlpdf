@@ -43,7 +43,7 @@ def analyzepdf_main():
 
     result = []
     result2 = []
-    pdf_pattern = re.compile("\.pdf$")
+    pdf_pattern = re.compile("md\.pdf$")
     for root_dir, dirs, files in os.walk(os.path.realpath("./%s/" % (srcdir))):
         for file in files:
             abs_file = os.path.realpath(os.path.join(root_dir, file))
@@ -51,7 +51,7 @@ def analyzepdf_main():
                 abs_pdf = abs_file
                 abs_txt = abs_file.replace(".pdf", ".txt")
                 analyzepdf.getpdftotext(abs_pdf, abs_txt)
-                analyze_result = analyzepdf.analyze(abs_pdf, abs_txt, 70)
+                analyze_result = analyzepdf.analyze(abs_pdf, abs_txt, 1, 70)
                 result.append(analyze_result)
 
     def sort_dict(adict):
@@ -64,7 +64,7 @@ def analyzepdf_main():
             # print value
             result2.append(value)
 
-    summary = open(os.path.realpath("./%s/summary.txt" % (outdir)),"w");
+    summary = open(os.path.realpath("./%s/summary.txt" % (outdir)),"w")
     try:
         summary.write("\n".join(result2))
     except:

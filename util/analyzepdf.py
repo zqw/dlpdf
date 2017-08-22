@@ -62,7 +62,7 @@ def getpdftotext(pdfpath, txtpath):
     if txt:
         txt.close()
 
-def analyze(pdfpath, txtpath, loop):
+def analyze(pdfpath, txtpath, loop_start, loop_end):
     pdffilename = os.path.basename(pdfpath)
     txt = open(txtpath)
 
@@ -86,20 +86,34 @@ def analyze(pdfpath, txtpath, loop):
 
 
     #####################################################
-    # 生成结果的第四列：正文引用的语句
+    # 生成结果的第四列：BODY正文引用的语句
     lines1 = "".join(lines1).replace("\n","").split(".")
-    start1 = 1
+    start1 = loop_start
     result1={}
-    while start1 < loop:
+    while start1 < loop_end:
         pattern1 = re.compile("\["+str(start1)+"|,"+str(start1)+",|"+str(start1)+"\]")
         def has_ref_content(line):
             return len(pattern1.findall(line)) > 0
 
+        # content会始终是个数组，即有可能是个空数组
         content = filter(has_ref_content, lines1)
 
         if content and len(content) > 0:
-            # print "[" + str(start1) + "]" + content[0] + "."
-            result1[start1] = content[0] + "."
+            result1[start1] = ""
+            for c in content:
+                content_index = lines1.index(c)
+                content_after_sentence = ""
+                if content_index < (len(lines1) - 1):
+                    pattern_however = re.compile("^\s*(however|whereas|while)", re.IGNORECASE)
+                    test_however_result = pattern_however.findall(lines1[content_index + 1])
+                    if test_however_result and len(test_however_result) > 0:
+                        content_after_sentence = lines1[content_index + 1]
+                        print "HOWEVER_WHEREAS_WHILE_SENTENCE:",content_after_sentence
+                    else:
+                        content_after_sentence = ""
+                # print "[" + str(start1) + "]" + c + "."
+                result1[start1]  += c + "." + content_after_sentence
+
             start1 = start1 + 1
         else:
             result1[start1] = "NaN"
@@ -110,13 +124,13 @@ def analyze(pdfpath, txtpath, loop):
     # print result1
 
     ####################################################
-    # 生成结果的第三列：title
+    # 生成结果的第三列：最后REFERENCES title
     title = "NaN"
-    start2 = 1
+    start2 = loop_start
     result2 = {}
-    while start2 < loop:
+    while start2 < loop_end:
         left = lines2.find('['+ str(start2)+']')
-        right = lines2.find('['+ str(start2+1)+']')
+        right = lines2.find('['+ str(start2+1)+']')  #没有找到的话会返回-1
         if left > 0 and right > 0:
             inner_str = lines2[left:right]
             pattern2 = re.compile("(?<=\xe2\x80\x9c)(.*)(?=\xe2\x80\x9d)")
@@ -129,7 +143,7 @@ def analyze(pdfpath, txtpath, loop):
                 txt_left_index = left + len(str(start2)) + 2
                 result2[start2] = lines2[txt_left_index:right].replace("\n","")
             start2 = start2 + 1
-        elif left > 0:
+        elif left > 0 and right == -1:
             txt_left_index = left + len(str(start2)) + 2
             result2[start2] = lines2[txt_left_index:right].replace("\n", "")
             start2 = start2 + 1
@@ -144,7 +158,7 @@ def analyze(pdfpath, txtpath, loop):
         txt.close()
 
     result3={}
-    for i in range(1,loop):
+    for i in range(loop_start,loop_end):
         if(result1[i] == "NaN" and result2[i] == "NaN" ):
             continue
         result3[i] = pdffilename + "-----" +  "["+str(i)+"]" + "-----" +result2[i]  + "-----" +result1[i]
